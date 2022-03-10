@@ -10,20 +10,76 @@
  */
 #include "env.h"
 #include "board.h"
+#include "matchmask.h"
 
 #include <stdio.h>
+#include <stdbool.h>
+/*********************Private Function Declarations**********************/
+/**
+ * @brief private function to count the set bits in a uint64
+ * 
+ * @param n 
+ * @return int number of 1s in the 64 bit integer
+ */
+int count_set_bits(unsigned long long n);
 
-short board_checkBoardValidity(
+/**
+ * @brief Get the Column mask
+ * 
+ * @param columnChosen 
+ * @return unsigned long long returns 1s where the column is
+ */
+unsigned long long getColumn(short columnChosen);
+
+/**
+ * @brief Get the Row mask
+ * 
+ * @param rowChosen 
+ * @return unsigned long long returns 1s where the row is
+ */
+unsigned long long getRow(short rowChosen);
+
+
+/*********************Private Functions Definitions***********************/
+int count_set_bits(unsigned long long n) {
+  int size, count = 0;
+  
+  size = sizeof(unsigned long long) * 8;
+  
+  while(size--) {
+    count += (int)(n & 0x01);
+    n = n >> 1;
+  }
+
+  return count;
+}
+
+unsigned long long getColumn(short columnChosen) {
+    unsigned long long mask = 1<<columnChosen, columnMask = 0;
+    
+    for (short i=0; i<MAX_ROWS; i++) {
+        columnMask = columnMask | (mask<<(i*MAX_COLS));
+    }
+    return columnMask;
+}
+
+unsigned long long getRow(short rowChosen) {
+    unsigned long long rowMask = (0x7f)<<(rowChosen*MAX_COLS);
+    return rowMask;
+}
+
+/*********************Public Functions Definitions************************/
+bool board_checkBoardValidity(
     unsigned long long xBoard,
     unsigned long long oBoard
 ) {
     #if (DEBUG>(3))
         printf("%016x\n\r", xBoard&oBoard);
     #endif /*(DEBUG>(3))*/
-    return ((xBoard&oBoard)!=0);
+    return ((xBoard&oBoard)==0);
 }
 
-void board_displayBoard(
+bool board_displayBoard(
     unsigned long long xBoard,
     unsigned long long oBoard
 ) {
@@ -33,8 +89,9 @@ void board_displayBoard(
     char tokens[MAX_ROWS*(MAX_COLS+2)];
     //char boardString[BOARD_DISPLAY_BUFFER];
 
-    if (board_checkBoardValidity(xBoard, oBoard)) {
+    if (!board_checkBoardValidity(xBoard, oBoard)) {
         printf ("There was an error with the board. It couldn't be displayed.\n");
+        return false;
     } else {
         for (i=0; i<MAX_ROWS; i++) {
             for (j=0; j<MAX_COLS; j++) {
@@ -76,5 +133,52 @@ void board_displayBoard(
         }
         printf("%s", tokens);
         printf("1234567%s",_NEWLINE);
+        return true;
+    }
+}
+
+bool board_checkVictoryMatch(
+    unsigned long long board
+) {
+    for (short i = 0; i<VICTORY_MASK_LENGTH; i++) {
+        if ((board&victoryMasks[i])==victoryMasks[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool board_validColumnForEntry(
+    unsigned long long xBoard,
+    unsigned long long oBoard,
+    short columnChosen
+) {
+    unsigned long long board = xBoard|oBoard;
+    unsigned long long columnMask = getColumn(columnChosen);
+
+    #if (DEBUG>3)
+    printf("columnMask = %016x", columnMask);
+    #elif (DEBUG>5)
+    board_displayBoard(columnMask, 0);
+    #endif /*DEBUG*/
+
+    return ((board&columnMask)!=columnMask);
+}
+
+void board_placeToken(
+    unsigned long long *xBoard,
+    unsigned long long *oBoard,
+    short columnChosen,
+    short whoPlays
+) {
+    unsigned long long board = (*xBoard)|(*oBoard);
+    unsigned long long columnMask = getColumn(columnChosen);
+    short rows = count_set_bits(board&columnMask);
+    unsigned long long rowMask =  getRow(rows);
+    
+    if (whoPlays) {
+        *xBoard |= columnMask&rowMask;
+    } else {
+        *oBoard |= columnMask&rowMask;
     }
 }

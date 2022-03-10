@@ -9,8 +9,9 @@
  * 
  */
 #ifndef MATCHMASK_H
-#DEFINE MATCHMASK_H
+#define MATCHMASK_H
 
-unsigned long long *victoryMasks;
+#define VICTORY_MASK_LENGTH (88)
+extern unsigned long long victoryMasks[VICTORY_MASK_LENGTH];
 
 #endif /*MATCHMASK_H*/
