@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2022
  * 
  */
-#include "env.h"
+#include "types.h"
 #include "board.h"
 #include "matchmask.h"
 
@@ -21,30 +21,30 @@
  * @param n 
  * @return int number of 1s in the 64 bit integer
  */
-int count_set_bits(unsigned long long n);
+int count_set_bits(uint64 n);
 
 /**
  * @brief Get the Column mask
  * 
  * @param columnChosen 
- * @return unsigned long long returns 1s where the column is
+ * @return uint64 returns 1s where the column is
  */
-unsigned long long getColumn(short columnChosen);
+uint64 getColumn(short columnChosen);
 
 /**
  * @brief Get the Row mask
  * 
  * @param rowChosen 
- * @return unsigned long long returns 1s where the row is
+ * @return uint64 returns 1s where the row is
  */
-unsigned long long getRow(short rowChosen);
+uint64 getRow(short rowChosen);
 
 
 /*********************Private Functions Definitions***********************/
-int count_set_bits(unsigned long long n) {
+int count_set_bits(uint64 n) {
   int size, count = 0;
   
-  size = sizeof(unsigned long long) * 8;
+  size = sizeof(uint64) * 8;
   
   while(size--) {
     count += (int)(n & 0x01);
@@ -54,8 +54,8 @@ int count_set_bits(unsigned long long n) {
   return count;
 }
 
-unsigned long long getColumn(short columnChosen) {
-    unsigned long long mask = 1<<columnChosen, columnMask = 0;
+uint64 getColumn(short columnChosen) {
+    uint64 mask = 1<<columnChosen, columnMask = 0;
     
     for (short i=0; i<MAX_ROWS; i++) {
         columnMask = columnMask | (mask<<(i*MAX_COLS));
@@ -63,28 +63,28 @@ unsigned long long getColumn(short columnChosen) {
     return columnMask;
 }
 
-unsigned long long getRow(short rowChosen) {
-    unsigned long long rowMask = (0x7f)<<(rowChosen*MAX_COLS);
+uint64 getRow(short rowChosen) {
+    uint64 rowMask = (((uint64)0x7f)<<(rowChosen*MAX_COLS));
     return rowMask;
 }
 
 /*********************Public Functions Definitions************************/
 bool board_checkBoardValidity(
-    unsigned long long xBoard,
-    unsigned long long oBoard
+    uint64 xBoard,
+    uint64 oBoard
 ) {
-    #if (DEBUG>(3))
+    #if (DEBUG>(8))
         printf("%016x\n\r", xBoard&oBoard);
     #endif /*(DEBUG>(3))*/
     return ((xBoard&oBoard)==0);
 }
 
 bool board_displayBoard(
-    unsigned long long xBoard,
-    unsigned long long oBoard
+    uint64 xBoard,
+    uint64 oBoard
 ) {
-    unsigned long long unitmask = 1;
-    unsigned long long mask;
+    uint64 unitmask = 1;
+    uint64 mask;
     short i,j;
     char tokens[MAX_ROWS*(MAX_COLS+2)];
     //char boardString[BOARD_DISPLAY_BUFFER];
@@ -99,15 +99,28 @@ bool board_displayBoard(
                 tokens[(MAX_ROWS-1-i)*(MAX_COLS+2)+j] = '_';
                 mask = unitmask<<(i*MAX_ROWS+j);
                 
-                #if (DEBUG>(5))
-                    printf("%016x - %i\n\r", mask, (MAX_ROWS-1-i)*(MAX_COLS+2)+j);
+                #if (DEBUG>(8))
+                    printf("%016x - %i%s", mask, (MAX_ROWS-1-i)*(MAX_COLS+2)+j, _NEWLINE);
                 #endif /*DEBUG>5*/
 
-                if ((xBoard&mask)==mask){
-                    tokens[(MAX_ROWS-1-i)*(MAX_COLS+2)+j]='x';
-                }
-                if ((oBoard&mask)==mask) {
-                    tokens[(MAX_ROWS-1-i)*(MAX_COLS+2)+j]='o';
+                if (mask!=(uint64)0) {
+                    if ((xBoard&mask)==mask){
+                        #if (DEBUG>(5))
+                        printf("%d%s", sizeof(uint64),_NEWLINE);
+                        printf("%d - %llx%s",(mask!=0), (xBoard),_NEWLINE);
+                        printf("%d - %llx%s",(mask!=0), (xBoard&mask),_NEWLINE);
+                        printf("%d - %llx%s",(mask!=0), mask,_NEWLINE);
+                        printf("%d,%d,%d%s", i, j, (MAX_ROWS-1-i)*(MAX_COLS+2)+j, _NEWLINE);
+                        #endif /*DEBUG>5*/
+                        tokens[(MAX_ROWS-1-i)*(MAX_COLS+2)+j]='x';
+                    }
+                    if ((oBoard&mask)==mask) {
+                        #if (DEBUG>(5))
+                        printf("%d - %llx%s",(mask!=0), mask, _NEWLINE);
+                        printf("%d,%d,%d%s", i, j, (MAX_ROWS-1-i)*(MAX_COLS+2)+j, _NEWLINE);
+                        #endif /*DEBUG>5*/
+                        tokens[(MAX_ROWS-1-i)*(MAX_COLS+2)+j]='o';
+                    }
                 }
                 #else
                 printf("%i\n", (MAX_ROWS-1-i)*(MAX_COLS)+j);
@@ -138,7 +151,7 @@ bool board_displayBoard(
 }
 
 bool board_checkVictoryMatch(
-    unsigned long long board
+    uint64 board
 ) {
     for (short i = 0; i<VICTORY_MASK_LENGTH; i++) {
         if ((board&victoryMasks[i])==victoryMasks[i]) {
@@ -149,12 +162,12 @@ bool board_checkVictoryMatch(
 }
 
 bool board_validColumnForEntry(
-    unsigned long long xBoard,
-    unsigned long long oBoard,
+    uint64 xBoard,
+    uint64 oBoard,
     short columnChosen
 ) {
-    unsigned long long board = xBoard|oBoard;
-    unsigned long long columnMask = getColumn(columnChosen);
+    uint64 board = xBoard|oBoard;
+    uint64 columnMask = getColumn(columnChosen);
 
     #if (DEBUG>3)
     printf("columnMask = %016x", columnMask);
@@ -166,19 +179,44 @@ bool board_validColumnForEntry(
 }
 
 void board_placeToken(
-    unsigned long long *xBoard,
-    unsigned long long *oBoard,
+    uint64 *xBoard,
+    uint64 *oBoard,
     short columnChosen,
     short whoPlays
 ) {
-    unsigned long long board = (*xBoard)|(*oBoard);
-    unsigned long long columnMask = getColumn(columnChosen);
+    uint64 board = (*xBoard)|(*oBoard);
+    uint64 columnMask = getColumn(columnChosen);
     short rows = count_set_bits(board&columnMask);
-    unsigned long long rowMask =  getRow(rows);
+    uint64 rowMask =  getRow(rows);
+
+    #if (DEBUG>5)
+    printf("%s%s", _NEWLINE, _NEWLINE);
+    printf("xBoard = %llx%s", *xBoard, _NEWLINE);
+    printf("oBoard = %llx%s", *oBoard, _NEWLINE);
+    printf("xBoardp = %x%s", xBoard, _NEWLINE);
+    printf("oBoardp = %x%s", oBoard, _NEWLINE);
+    printf("column = %llx%s", columnMask, _NEWLINE);
+    printf("rowMsk = %llx%s", rowMask, _NEWLINE);
+    printf("posMsk = %llx", rowMask&columnMask);
+    printf("%s%s", _NEWLINE, _NEWLINE);
+    #endif /*(DEBUG>5)*/
     
     if (whoPlays) {
-        *xBoard |= columnMask&rowMask;
+        *xBoard |= ((uint64)columnMask)&((uint64)rowMask);
     } else {
-        *oBoard |= columnMask&rowMask;
+        *oBoard |= ((uint64)columnMask)&((uint64)rowMask);
     }
+
+    #if (DEBUG>5)
+    printf("%s%s", _NEWLINE, _NEWLINE);
+    printf("xBoard = %llx%s", *xBoard, _NEWLINE);
+    printf("oBoard = %llx%s", *oBoard, _NEWLINE);
+    printf("xBoardp = %x%s", xBoard, _NEWLINE);
+    printf("oBoardp = %x%s", oBoard, _NEWLINE);
+    printf("column = %llx%s", columnMask, _NEWLINE);
+    printf("rowMsk = %llx%s", rowMask, _NEWLINE);
+    printf("posMsk = %llx", rowMask&columnMask);
+    printf("%s%s", _NEWLINE, _NEWLINE);
+    #endif /*(DEBUG>5)*/
+
 }

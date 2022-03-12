@@ -17,6 +17,8 @@
 
 //#define BOARD_DISPLAY_BUFFER 256
 
+#include "types.h"
+
 #include <stdbool.h>
 
 /**
@@ -27,8 +29,8 @@
  * @return bool returns true if there is no errors detected in the parameters
  */
 bool board_checkBoardValidity(
-    unsigned long long xBoard,
-    unsigned long long oBoard);
+    uint64 xBoard,
+    uint64 oBoard);
 
 /**
  * @brief displays the 7x7 board on screen given x token positions and o token positions.
@@ -38,8 +40,8 @@ bool board_checkBoardValidity(
  * @return bool returns true is there were no issues displaying the board, false if there was an error
  */
 bool board_displayBoard(
-    unsigned long long xBoard,
-    unsigned long long oBoard);
+    uint64 xBoard,
+    uint64 oBoard);
 
 /**
  * @brief checks if there is a victory match on the board
@@ -49,7 +51,7 @@ bool board_displayBoard(
  * @return false if there is no victory match
  */
 bool board_checkVictoryMatch(
-    unsigned long long board);
+    uint64 board);
 
 /**
  * @brief 
@@ -61,8 +63,8 @@ bool board_checkVictoryMatch(
  * @return false if number is invalid
  */
 bool board_validColumnForEntry(
-    unsigned long long xBoard,
-    unsigned long long oBoard,
+    uint64 xBoard,
+    uint64 oBoard,
     short columnChosen);
 
 /**
@@ -75,8 +77,8 @@ bool board_validColumnForEntry(
  */
 
 void board_placeToken(
-    unsigned long long *xBoard,
-    unsigned long long *oBoard,
+    uint64 *xBoard,
+    uint64 *oBoard,
     short columnChosen,
     short whoPlays);
 #endif /*BOARD_H*/

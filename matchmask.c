@@ -8,9 +8,10 @@
  * @copyright Copyright (c) 2022
  * 
  */
+#include "types.h"
 #include "matchmask.h"
 
-unsigned long long victoryMasks[VICTORY_MASK_LENGTH] = {
+uint64 victoryMasks[VICTORY_MASK_LENGTH] = {
     0x000000000000000f,
     0x0000000000000780,
     0x000000000003c000,
