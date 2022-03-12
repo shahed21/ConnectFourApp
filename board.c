@@ -79,6 +79,22 @@ bool board_checkBoardValidity(
     return ((xBoard&oBoard)==0);
 }
 
+bool board_checkBoardFull(
+    uint64 xBoard,
+    uint64 oBoard
+) {
+    uint64 xorVal = ((uint64)0x1ffffffffffff)^(xBoard|oBoard);
+
+    #if (DEBUG>6)
+    printf ("%llx%s", xorVal, _NEWLINE);
+    #endif //(DEBUG>6)
+    
+    if (xorVal==0) {
+        return true;
+    }
+    return false;
+}
+
 bool board_displayBoard(
     uint64 xBoard,
     uint64 oBoard

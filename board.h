@@ -54,6 +54,18 @@ bool board_checkVictoryMatch(
     uint64 board);
 
 /**
+ * @brief checks if the board is full
+ * 
+ * @param xBoard a 64 bit integer holding the x token positions of the board
+ * @param oBoard a 64 bit integer holding the o token positions of the board
+ * @return true if there is no more room in the board
+ * @return false if there is more room in the board
+ */
+bool board_checkBoardFull(
+    uint64 xBoard,
+    uint64 oBoard);
+
+/**
  * @brief 
  * 
  * @param xBoard a 64 bit integer holding the x token positions of the board

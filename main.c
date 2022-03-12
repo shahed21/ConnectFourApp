@@ -64,6 +64,7 @@ short main_getTokenColumn(uint64 xBoard, uint64 oBoard, short whoPlays) {
 int main(int argc, char **argv) {
     uint64 xBoard=0, oBoard=0;
     bool victoryMatched = false;
+    bool boardFull = false;
     short whoPlays = WHO_STARTS;
     short columnChosen = 0;
     char victoryString[2][16] = {
@@ -76,14 +77,19 @@ int main(int argc, char **argv) {
     //xBoard=0x0000000004081020;
     //oBoard=0x0000000004040404;
     if (board_displayBoard(xBoard, oBoard)){
-        while (!victoryMatched) {
+        while ((!victoryMatched)&&(!boardFull)) {
             victoryMatched = board_checkVictoryMatch((whoPlays)?(oBoard):(xBoard));
             if (victoryMatched) {
                 printf("%s%s", victoryString[whoPlays], _NEWLINE);
             } else {
-                columnChosen = main_getTokenColumn(xBoard, oBoard, whoPlays);
-                board_placeToken(&xBoard,&oBoard,columnChosen,whoPlays);
-                board_displayBoard(xBoard, oBoard);
+                boardFull = board_checkBoardFull(xBoard, oBoard);
+                if (boardFull) {
+                    printf("Board is full, nobody won.  Thank you for playing.%s", _NEWLINE);
+                } else {
+                    columnChosen = main_getTokenColumn(xBoard, oBoard, whoPlays);
+                    board_placeToken(&xBoard,&oBoard,columnChosen,whoPlays);
+                    board_displayBoard(xBoard, oBoard);
+                }
             }
             whoPlays=!whoPlays;
         }
