@@ -21,6 +21,8 @@
 
 #include <stdbool.h>
 
+/*********************Public Functions Declarations************************/
+
 /**
  * @brief checks the validity of the board token positions. If there is an error the function returns a false.
  * 
