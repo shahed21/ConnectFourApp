@@ -1,0 +1,5 @@
+optional: use 8 bit rows instead of 7 bit rows.  Top bit always unused.  This makes reading hex easier.
+
+Use bitwise structs
+
+Use array of 7 u64s as two macros, one for column and one for row masks
