@@ -56,6 +56,7 @@ int count_set_bits(uint64 n) {
   return count;
 }
 
+//TODO: Change this function into a uint64 array macro
 uint64 getColumn(short columnChosen) {
     uint64 mask = 1<<columnChosen, columnMask = 0;
     
@@ -65,6 +66,7 @@ uint64 getColumn(short columnChosen) {
     return columnMask;
 }
 
+//TODO: Change this function into a uint64 array macro
 uint64 getRow(short rowChosen) {
     uint64 rowMask = (((uint64)0x7f)<<(rowChosen*MAX_COLS));
     return rowMask;
