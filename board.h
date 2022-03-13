@@ -21,6 +21,10 @@
 
 #include <stdbool.h>
 
+/*********************Public Macros***************************************/
+#define COMPUTER_PLAYS (0)
+#define HUMAN_PLAYS (1)
+
 /*********************Public Functions Declarations************************/
 
 /**

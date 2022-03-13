@@ -15,8 +15,6 @@
 #include "gametheory.h"
 #include "types.h"
 
-#define COMPUTER_PLAYS (0)
-#define HUMAN_PLAYS (1)
 #define WHO_STARTS (HUMAN_PLAYS)
 
 /**
