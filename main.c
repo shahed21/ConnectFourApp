@@ -46,7 +46,7 @@ short main_getTokenColumn(uint64 xBoard, uint64 oBoard, short whoPlays) {
     } else { //AI pLays
         printf("It's my turn to play.%s", _NEWLINE);
         while ((columnChosen<1)||(columnChosen>7)||(!validColumn)) {
-            columnChosen = gametheory_chooseColumn(xBoard, oBoard, columnChosen);
+            columnChosen = gametheory_chooseColumn(xBoard, oBoard, columnChosen, whoPlays);
             //columnChosen++;  //TODO this is where AI goes
             validColumn = board_validColumnForEntry(xBoard,oBoard, (columnChosen-1)); //1-7 is decremented to 0-6
         }
