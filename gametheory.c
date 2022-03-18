@@ -14,6 +14,7 @@
 #include "gametheory.h"
 
 #include <stdio.h>
+#include <stdbool.h>
 
 
 /*********************Private Function Declarations***********************/
@@ -108,7 +109,3 @@ short gametheory_chooseColumn(
     }
     return columnChosen + 1;
 }
-
-
-#include <stdio.h>
-#include <stdbool.h>
