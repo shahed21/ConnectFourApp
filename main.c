@@ -34,7 +34,7 @@ short main_getTokenColumn(uint64 xBoard, uint64 oBoard, short whoPlays) {
 
         while ((columnChosen<1)||(columnChosen>7)||(!validColumn)) {
             printf("Please enter a column number from 1 to 7 to place your token x.%s", _NEWLINE);
-            scanf("%d", &columnChosen); //has to be 1-7
+            scanf("%hd", &columnChosen); //has to be 1-7
 
             validColumn = board_validColumnForEntry(xBoard,oBoard, (columnChosen-1)); //1-7 is decremented to 0-6
             if (!validColumn) {
