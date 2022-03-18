@@ -17,7 +17,9 @@
 //#define _OS (OLD_MAC)
 //#define _OS (OSX)
 
-#define DEBUG (1)
+#define OLD_DEBUG (9)
+#define NEW_DEBUG (5)
+#define DEBUG (NEW_DEBUG)
 
 #if (_OS==(WINDOWS))
 #define _NEWLINE ("\r\n")
