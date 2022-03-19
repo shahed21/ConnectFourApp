@@ -11,7 +11,7 @@
 #include "types.h"
 #include "matchmask.h"
 
-uint64 victoryMasks[VICTORY_MASK_LENGTH] = {
+u64 victoryMasks[VICTORY_MASK_LENGTH] = {
     //horizontals
     0x000000000000000f,
     0x0000000000000780,

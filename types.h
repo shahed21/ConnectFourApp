@@ -13,6 +13,6 @@
 
 #include "env.h"
 
-typedef unsigned long long uint64;
+typedef unsigned long long u64;
 
 #endif //TYPES_H

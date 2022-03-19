@@ -25,7 +25,7 @@
  * @param whoPlays 1->human, 0-> computer
  * @return short column number 0 to 6 chosen by player or computer
  */
-short main_getTokenColumn(uint64 xBoard, uint64 oBoard, short whoPlays) {
+short main_getTokenColumn(u64 xBoard, u64 oBoard, short whoPlays) {
     short columnChosen=0;
     bool validColumn = false;
     
@@ -62,7 +62,7 @@ short main_getTokenColumn(uint64 xBoard, uint64 oBoard, short whoPlays) {
  * @return int 
  */
 int main(int argc, char **argv) {
-    uint64 xBoard=0, oBoard=0;
+    u64 xBoard=0, oBoard=0;
     bool victoryMatched = false;
     bool boardFull = false;
     short whoPlays = WHO_STARTS;

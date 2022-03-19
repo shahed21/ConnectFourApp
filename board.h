@@ -35,8 +35,8 @@
  * @return bool returns true if there is no errors detected in the parameters
  */
 bool board_checkBoardValidity(
-    uint64 xBoard,
-    uint64 oBoard);
+    u64 xBoard,
+    u64 oBoard);
 
 /**
  * @brief displays the 7x7 board on screen given x token positions and o token positions.
@@ -46,8 +46,8 @@ bool board_checkBoardValidity(
  * @return bool returns true is there were no issues displaying the board, false if there was an error
  */
 bool board_displayBoard(
-    uint64 xBoard,
-    uint64 oBoard);
+    u64 xBoard,
+    u64 oBoard);
 
 /**
  * @brief checks if there is a victory match on the board
@@ -57,7 +57,7 @@ bool board_displayBoard(
  * @return false if there is no victory match
  */
 bool board_checkVictoryMatch(
-    uint64 board);
+    u64 board);
 
 /**
  * @brief checks if the board is full
@@ -68,8 +68,8 @@ bool board_checkVictoryMatch(
  * @return false if there is more room in the board
  */
 bool board_checkBoardFull(
-    uint64 xBoard,
-    uint64 oBoard);
+    u64 xBoard,
+    u64 oBoard);
 
 /**
  * @brief 
@@ -81,8 +81,8 @@ bool board_checkBoardFull(
  * @return false if number is invalid
  */
 bool board_validColumnForEntry(
-    uint64 xBoard,
-    uint64 oBoard,
+    u64 xBoard,
+    u64 oBoard,
     short columnChosen);
 
 /**
@@ -95,8 +95,8 @@ bool board_validColumnForEntry(
  */
 
 void board_placeToken(
-    uint64 *xBoard,
-    uint64 *oBoard,
+    u64 *xBoard,
+    u64 *oBoard,
     short columnChosen,
     short whoPlays);
 #endif /*BOARD_H*/

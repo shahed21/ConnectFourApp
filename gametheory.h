@@ -21,8 +21,8 @@
  * @return short column number 0 to 6 chosen by computer
  */
 short gametheory_chooseColumn(
-    uint64 xBoard,
-    uint64 oBoard,
+    u64 xBoard,
+    u64 oBoard,
     short columnChosen);
 /*********************Public Functions Declarations************************/
 #endif //GAMETHEORY_H

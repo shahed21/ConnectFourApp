@@ -18,35 +18,35 @@
 
 /*********************Private Function Declarations***********************/
 /**
- * @brief private function to count the set bits in a uint64
+ * @brief private function to count the set bits in a u64
  * 
  * @param n 
  * @return int number of 1s in the 64 bit integer
  */
-int count_set_bits(uint64 n);
+int count_set_bits(u64 n);
 
 /**
  * @brief Get the Column mask
  * 
  * @param columnChosen 
- * @return uint64 returns 1s where the column is
+ * @return u64 returns 1s where the column is
  */
-uint64 getColumn(short columnChosen);
+u64 getColumn(short columnChosen);
 
 /**
  * @brief Get the Row mask
  * 
  * @param rowChosen 
- * @return uint64 returns 1s where the row is
+ * @return u64 returns 1s where the row is
  */
-uint64 getRow(short rowChosen);
+u64 getRow(short rowChosen);
 
 
 /*********************Private Functions Definitions***********************/
-int count_set_bits(uint64 n) {
+int count_set_bits(u64 n) {
   int size, count = 0;
   
-  size = sizeof(uint64) * 8;
+  size = sizeof(u64) * 8;
   
   while(size--) {
     count += (int)(n & 0x01);
@@ -56,9 +56,9 @@ int count_set_bits(uint64 n) {
   return count;
 }
 
-//TODO: Change this function into a uint64 array macro
-uint64 getColumn(short columnChosen) {
-    uint64 mask = 1<<columnChosen, columnMask = 0;
+//TODO: Change this function into a u64 array macro
+u64 getColumn(short columnChosen) {
+    u64 mask = 1<<columnChosen, columnMask = 0;
     
     for (short i=0; i<MAX_ROWS; i++) {
         columnMask = columnMask | (mask<<(i*MAX_COLS));
@@ -66,16 +66,16 @@ uint64 getColumn(short columnChosen) {
     return columnMask;
 }
 
-//TODO: Change this function into a uint64 array macro
-uint64 getRow(short rowChosen) {
-    uint64 rowMask = (((uint64)0x7f)<<(rowChosen*MAX_COLS));
+//TODO: Change this function into a u64 array macro
+u64 getRow(short rowChosen) {
+    u64 rowMask = (((u64)0x7f)<<(rowChosen*MAX_COLS));
     return rowMask;
 }
 
 /*********************Public Functions Definitions************************/
 bool board_checkBoardValidity(
-    uint64 xBoard,
-    uint64 oBoard
+    u64 xBoard,
+    u64 oBoard
 ) {
     #if (DEBUG>=(OLD_DEBUG))
         printf("%016x\n\r", xBoard&oBoard);
@@ -84,10 +84,10 @@ bool board_checkBoardValidity(
 }
 
 bool board_checkBoardFull(
-    uint64 xBoard,
-    uint64 oBoard
+    u64 xBoard,
+    u64 oBoard
 ) {
-    uint64 xorVal = ((uint64)0x1ffffffffffff)^(xBoard|oBoard);
+    u64 xorVal = ((u64)0x1ffffffffffff)^(xBoard|oBoard);
 
     #if (DEBUG>=(OLD_DEBUG))
     printf ("%llx%s", xorVal, _NEWLINE);
@@ -100,11 +100,11 @@ bool board_checkBoardFull(
 }
 
 bool board_displayBoard(
-    uint64 xBoard,
-    uint64 oBoard
+    u64 xBoard,
+    u64 oBoard
 ) {
-    uint64 unitmask = 1;
-    uint64 mask;
+    u64 unitmask = 1;
+    u64 mask;
     short i,j;
     char tokens[MAX_ROWS*(MAX_COLS+2)];
     //char boardString[BOARD_DISPLAY_BUFFER];
@@ -123,10 +123,10 @@ bool board_displayBoard(
                     printf("%016x - %i%s", mask, (MAX_ROWS-1-i)*(MAX_COLS+2)+j, _NEWLINE);
                 #endif /*(DEBUG>=(OLD_DEBUG))*/
 
-                if (mask!=(uint64)0) {
+                if (mask!=(u64)0) {
                     if ((xBoard&mask)==mask){
                         #if (DEBUG>=(OLD_DEBUG))
-                        printf("%d%s", sizeof(uint64),_NEWLINE);
+                        printf("%d%s", sizeof(u64),_NEWLINE);
                         printf("%d - %llx%s",(mask!=0), (xBoard),_NEWLINE);
                         printf("%d - %llx%s",(mask!=0), (xBoard&mask),_NEWLINE);
                         printf("%d - %llx%s",(mask!=0), mask,_NEWLINE);
@@ -171,7 +171,7 @@ bool board_displayBoard(
 }
 
 bool board_checkVictoryMatch(
-    uint64 board
+    u64 board
 ) {
     for (short i = 0; i<VICTORY_MASK_LENGTH; i++) {
         if ((board&victoryMasks[i])==victoryMasks[i]) {
@@ -182,12 +182,12 @@ bool board_checkVictoryMatch(
 }
 
 bool board_validColumnForEntry(
-    uint64 xBoard,
-    uint64 oBoard,
+    u64 xBoard,
+    u64 oBoard,
     short columnChosen
 ) {
-    uint64 board = xBoard|oBoard;
-    uint64 columnMask = getColumn(columnChosen);
+    u64 board = xBoard|oBoard;
+    u64 columnMask = getColumn(columnChosen);
 
     #if (DEBUG>=(OLD_DEBUG))
     printf("columnMask = %016x", columnMask);
@@ -198,15 +198,15 @@ bool board_validColumnForEntry(
 }
 
 void board_placeToken(
-    uint64 *xBoard,
-    uint64 *oBoard,
+    u64 *xBoard,
+    u64 *oBoard,
     short columnChosen,
     short whoPlays
 ) {
-    uint64 board = (*xBoard)|(*oBoard);
-    uint64 columnMask = getColumn(columnChosen);
+    u64 board = (*xBoard)|(*oBoard);
+    u64 columnMask = getColumn(columnChosen);
     short rows = count_set_bits(board&columnMask);
-    uint64 rowMask =  getRow(rows);
+    u64 rowMask =  getRow(rows);
 
     #if (DEBUG>=(OLD_DEBUG))
     printf("%s%s", _NEWLINE, _NEWLINE);
@@ -221,9 +221,9 @@ void board_placeToken(
     #endif /*(DEBUG>=(OLD_DEBUG))*/
     
     if (whoPlays) {
-        *xBoard |= ((uint64)columnMask)&((uint64)rowMask);
+        *xBoard |= ((u64)columnMask)&((u64)rowMask);
     } else {
-        *oBoard |= ((uint64)columnMask)&((uint64)rowMask);
+        *oBoard |= ((u64)columnMask)&((u64)rowMask);
     }
 
     #if (DEBUG>=(OLD_DEBUG))

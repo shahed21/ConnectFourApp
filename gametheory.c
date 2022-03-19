@@ -13,6 +13,9 @@
 #include "matchmask.h"
 #include "gametheory.h"
 
+#include <stdio.h>
+#include <stdbool.h>
+
 /*********************Private Function Declarations***********************/
 /**
  * @brief this function picks the instant victory
@@ -22,18 +25,18 @@
  * @return short returns the column number 1-7 for victory, or 0 if there is not instant victory
  */
 short chooseInstantVictory(
-    uint64 xBoard,
-    uint64 oBoard);
+    u64 xBoard,
+    u64 oBoard);
 
 
 /*********************Private Functions Definitions***********************/
 short chooseInstantVictory(
-    uint64 xBoard,
-    uint64 oBoard
+    u64 xBoard,
+    u64 oBoard
 ) {
     for (short columnChosen=0; columnChosen<MAX_COLS; columnChosen++) {
-        uint64 xBoardTemp = xBoard;
-        uint64 oBoardTemp = oBoard;
+        u64 xBoardTemp = xBoard;
+        u64 oBoardTemp = oBoard;
 
         board_placeToken(&xBoardTemp,&oBoardTemp,columnChosen,COMPUTER_PLAYS);
         if (board_checkVictoryMatch(oBoardTemp)) {
@@ -45,8 +48,8 @@ short chooseInstantVictory(
 
 /*********************Public Functions Definitions************************/
 short gametheory_chooseColumn(
-    uint64 xBoard,
-    uint64 oBoard,
+    u64 xBoard,
+    u64 oBoard,
     short columnChosen
 ) {
     short columnFound = chooseInstantVictory(xBoard, oBoard);
@@ -57,5 +60,3 @@ short gametheory_chooseColumn(
 }
 
 
-#include <stdio.h>
-#include <stdbool.h>

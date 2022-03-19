@@ -14,6 +14,6 @@
 #include "types.h"
 
 #define VICTORY_MASK_LENGTH (88)
-extern uint64 victoryMasks[VICTORY_MASK_LENGTH];
+extern u64 victoryMasks[VICTORY_MASK_LENGTH];
 
 #endif /*MATCHMASK_H*/
