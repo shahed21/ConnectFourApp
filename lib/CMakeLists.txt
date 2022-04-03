@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.16.3)
+
+if(ENABLE_SAMPLE_BUILD)
+    if(ENABLE_SAMPLE_ADDER_BUILD)
+        add_subdirectory(sampleadder)
+    endif()
+    if(ENABLE_SAMPLE_COMBINATORICS_BUILD)
+        add_subdirectory(samplecombinatorics)
+    endif()
+endif()

@@ -1,0 +1,22 @@
+/**
+ * @file config.h.in
+ * @author Shahed Rahim (shahed21@gmail.com)
+ * @brief This is the input header file that cmake converts to config.h
+ * @version 1.0.0
+ * @date 2022-03-31
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define PROJECT_NAME "@PROJECT_NAME@"
+#define PROJECT_VER  "@PROJECT_VERSION@"
+#define PROJECT_VER_MAJOR "@PROJECT_VERSION_MAJOR@"
+#define PROJECT_VER_MINOR "@PROJECT_VERSION_MINOR@"
+#define PROJECT_VER_PATCH "@PROJECT_VERSION_PATCH@"
+
+//#cmakedefine ENABLE_SAMPLE_BUILD
+
+#endif // CONFIG_H
