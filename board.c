@@ -21,9 +21,9 @@
  * @brief private function to count the set bits in a u64
  * 
  * @param n 
- * @return int number of 1s in the 64 bit integer
+ * @return i32 number of 1s in the 64 bit integer
  */
-int count_set_bits(u64 n);
+i32 count_set_bits(u64 n);
 
 /**
  * @brief Get the Column mask
@@ -31,7 +31,7 @@ int count_set_bits(u64 n);
  * @param columnChosen 
  * @return u64 returns 1s where the column is
  */
-u64 getColumn(short columnChosen);
+u64 getColumn(i16 columnChosen);
 
 /**
  * @brief Get the Row mask
@@ -39,17 +39,17 @@ u64 getColumn(short columnChosen);
  * @param rowChosen 
  * @return u64 returns 1s where the row is
  */
-u64 getRow(short rowChosen);
+u64 getRow(i16 rowChosen);
 
 
 /*********************Private Functions Definitions***********************/
-int count_set_bits(u64 n) {
-  int size, count = 0;
+i32 count_set_bits(u64 n) {
+  i32 size, count = 0;
   
   size = sizeof(u64) * 8;
   
   while(size--) {
-    count += (int)(n & 0x01);
+    count += (i32)(n & 0x01);
     n = n >> 1;
   }
 
@@ -57,17 +57,17 @@ int count_set_bits(u64 n) {
 }
 
 //TODO: Change this function into a u64 array macro
-u64 getColumn(short columnChosen) {
+u64 getColumn(i16 columnChosen) {
     u64 mask = 1<<columnChosen, columnMask = 0;
     
-    for (short i=0; i<MAX_ROWS; i++) {
+    for (i16 i=0; i<MAX_ROWS; i++) {
         columnMask = columnMask | (mask<<(i*MAX_COLS));
     }
     return columnMask;
 }
 
 //TODO: Change this function into a u64 array macro
-u64 getRow(short rowChosen) {
+u64 getRow(i16 rowChosen) {
     u64 rowMask = (((u64)0x7f)<<(rowChosen*MAX_COLS));
     return rowMask;
 }
@@ -105,7 +105,7 @@ bool board_displayBoard(
 ) {
     u64 unitmask = 1;
     u64 mask;
-    short i,j;
+    i16 i,j;
     char tokens[MAX_ROWS*(MAX_COLS+2)];
     //char boardString[BOARD_DISPLAY_BUFFER];
 
@@ -173,7 +173,7 @@ bool board_displayBoard(
 bool board_checkVictoryMatch(
     u64 board
 ) {
-    for (short i = 0; i<VICTORY_MASK_LENGTH; i++) {
+    for (i16 i = 0; i<VICTORY_MASK_LENGTH; i++) {
         if ((board&victoryMasks[i])==victoryMasks[i]) {
             return true;
         }
@@ -184,7 +184,7 @@ bool board_checkVictoryMatch(
 bool board_validColumnForEntry(
     u64 xBoard,
     u64 oBoard,
-    short columnChosen
+    i16 columnChosen
 ) {
     u64 board = xBoard|oBoard;
     u64 columnMask = getColumn(columnChosen);
@@ -200,12 +200,12 @@ bool board_validColumnForEntry(
 void board_placeToken(
     u64 *xBoard,
     u64 *oBoard,
-    short columnChosen,
-    short whoPlays
+    i16 columnChosen,
+    i16 whoPlays
 ) {
     u64 board = (*xBoard)|(*oBoard);
     u64 columnMask = getColumn(columnChosen);
-    short rows = count_set_bits(board&columnMask);
+    i16 rows = count_set_bits(board&columnMask);
     u64 rowMask =  getRow(rows);
 
     #if (DEBUG>=(OLD_DEBUG))

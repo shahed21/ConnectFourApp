@@ -23,10 +23,10 @@
  * @param xBoard this is the token map of x
  * @param oBoard this is the token map of o
  * @param whoPlays 1->human, 0-> computer
- * @return short column number 0 to 6 chosen by player or computer
+ * @return i16 column number 0 to 6 chosen by player or computer
  */
-short main_getTokenColumn(u64 xBoard, u64 oBoard, short whoPlays) {
-    short columnChosen=0;
+i16 main_getTokenColumn(u64 xBoard, u64 oBoard, i16 whoPlays) {
+    i16 columnChosen=0;
     bool validColumn = false;
     
     if (whoPlays) { //Human Plays
@@ -59,14 +59,14 @@ short main_getTokenColumn(u64 xBoard, u64 oBoard, short whoPlays) {
  * 
  * @param argc 
  * @param argv 
- * @return int 
+ * @return i32 
  */
-int main(int argc, char **argv) {
+i32 main(i32 argc, char **argv) {
     u64 xBoard=0, oBoard=0;
     bool victoryMatched = false;
     bool boardFull = false;
-    short whoPlays = WHO_STARTS;
-    short columnChosen = 0;
+    i16 whoPlays = WHO_STARTS;
+    i16 columnChosen = 0;
     char victoryString[2][16] = {
         "You won.",
         "I won."

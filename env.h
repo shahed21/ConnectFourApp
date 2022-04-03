@@ -11,9 +11,9 @@
 #ifndef ENV_H
 #define ENV_H
 
-#define _OS (WINDOWS)
+//#define _OS (WINDOWS)
 //#define _OS (UNIX)
-//#define _OS (LINUX)
+#define _OS (LINUX)
 //#define _OS (OLD_MAC)
 //#define _OS (OSX)
 

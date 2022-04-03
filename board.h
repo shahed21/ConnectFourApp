@@ -83,7 +83,7 @@ bool board_checkBoardFull(
 bool board_validColumnForEntry(
     u64 xBoard,
     u64 oBoard,
-    short columnChosen);
+    i16 columnChosen);
 
 /**
  * @brief places a token on top of the columnChosen
@@ -97,6 +97,6 @@ bool board_validColumnForEntry(
 void board_placeToken(
     u64 *xBoard,
     u64 *oBoard,
-    short columnChosen,
-    short whoPlays);
+    i16 columnChosen,
+    i16 whoPlays);
 #endif /*BOARD_H*/

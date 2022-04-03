@@ -18,11 +18,11 @@
  * @param xBoard this is the token map of x
  * @param oBoard this is the token map of o
  * @param columnChosen 
- * @return short column number 0 to 6 chosen by computer
+ * @return i16 column number 0 to 6 chosen by computer
  */
-short gametheory_chooseColumn(
+i16 gametheory_chooseColumn(
     u64 xBoard,
     u64 oBoard,
-    short columnChosen);
+    i16 columnChosen);
 /*********************Public Functions Declarations************************/
 #endif //GAMETHEORY_H

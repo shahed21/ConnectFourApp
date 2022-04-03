@@ -22,19 +22,19 @@
  * 
  * @param xBoard a 64 bit integer holding the x token positions of the board
  * @param oBoard a 64 bit integer holding the o token positions of the board
- * @return short returns the column number 1-7 for victory, or 0 if there is not instant victory
+ * @return i16 returns the column number 1-7 for victory, or 0 if there is not instant victory
  */
-short chooseInstantVictory(
+i16 chooseInstantVictory(
     u64 xBoard,
     u64 oBoard);
 
 
 /*********************Private Functions Definitions***********************/
-short chooseInstantVictory(
+i16 chooseInstantVictory(
     u64 xBoard,
     u64 oBoard
 ) {
-    for (short columnChosen=0; columnChosen<MAX_COLS; columnChosen++) {
+    for (i16 columnChosen=0; columnChosen<MAX_COLS; columnChosen++) {
         u64 xBoardTemp = xBoard;
         u64 oBoardTemp = oBoard;
 
@@ -47,12 +47,12 @@ short chooseInstantVictory(
 }
 
 /*********************Public Functions Definitions************************/
-short gametheory_chooseColumn(
+i16 gametheory_chooseColumn(
     u64 xBoard,
     u64 oBoard,
-    short columnChosen
+    i16 columnChosen
 ) {
-    short columnFound = chooseInstantVictory(xBoard, oBoard);
+    i16 columnFound = chooseInstantVictory(xBoard, oBoard);
     if (columnFound) {
         return columnFound;  //Instant Victory
     }
