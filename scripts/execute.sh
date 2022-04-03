@@ -4,5 +4,5 @@
 source include.sh
 
 cd $BUILDDIR/
-./SampleExeWithLib
+./ConnectFourApp
 cd $ROOTDIR/

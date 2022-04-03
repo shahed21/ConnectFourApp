@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16.3)
-project(SampleExeWithLib 
+project(ConnectFourApp 
     VERSION 1.0.0
     LANGUAGES C CXX
 )
@@ -33,6 +33,10 @@ option(ENABLE_SAMPLE_ADDER_INSTALL "Sample Adder Library Install Enabled." ON)
 option(ENABLE_SAMPLE_COMBINATORICS_BUILD "Sample Combinatorics Library Build Enabled." ON)
 option(ENABLE_SAMPLE_COMBINATORICS_INSTALL "Sample Combinatorics Library Install Enabled." ON)
 
+## Other Library options
+option(ENABLE_CFBOARD_BUILD "Connect Four Board Library Build Enabled" ON)
+option(ENABLE_CFBOARD_INSTALL "Connect Four Board Library Install Enabled" ON)
+
 ## Project Cmake Options 
 option(ENABLE_PROJECT_INSTALL "Project Install Enabled." ON)
 
@@ -50,6 +54,13 @@ if(ENABLE_SAMPLE_BUILD)
         list(APPEND SAMPLE_LINK_LIBS samplecombinatorics)
         list(APPEND TEST_EXECUTABLES tests/samplecombinatorics_tests.cpp)
     endif()
+endif()
+
+if (ENABLE_CFBOARD_BUILD)
+    list(APPEND SAMPLE_INC_DIRS lib/cfboard/)
+    list(APPEND SAMPLE_LINK_DIRS lib/cfboard/)
+    list(APPEND SAMPLE_LINK_LIBS cfboard)
+    list(APPEND TEST_EXECUTABLES tests/cfboard_tests.cpp)
 endif()
 
 if(TEST_EXECUTABLES)
